@@ -4,5 +4,10 @@
 // Variables
 @import 'variables';
 
+div.form-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/dist/css/bootstrap.css';
