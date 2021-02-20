@@ -5,6 +5,12 @@
 
     <x-messages/>
 
+    <div class="my-3 d-flex justify-content-end">
+        <a href="{{ route("kata.create") }}" class="btn btn-primary">
+            @lang("application.create")
+        </a>
+    </div>
+
     @if($katas->isNotEmpty())
         <div class="table-responsive">
             <x-table>

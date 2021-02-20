@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "word_content_not_regex" => "Format isi hanya boleh mengandung huruf",
     "search_feature" => "Pencarian",
     "search" => "Cari",
     "word" => "Kata",

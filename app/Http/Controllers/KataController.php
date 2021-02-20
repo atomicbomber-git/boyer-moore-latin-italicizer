@@ -16,6 +16,7 @@ class KataController extends Controller
 
     public function __construct(ResponseFactory $responseFactory)
     {
+        $this->middleware("auth");
         $this->responseFactory = $responseFactory;
     }
 
@@ -23,6 +24,33 @@ class KataController extends Controller
     {
         return $this->responseFactory->view("kata.index");
     }
+
+    public function create()
+    {
+        return $this->responseFactory->view("kata.create");
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            "isi" => ["string", "not_regex:/[^\w]/", Rule::unique(Kata::class)]
+        ], [
+            "isi.not_regex" => __("application.word_content_not_regex")
+        ]);
+
+        Kata::query()->create($data);
+
+        SessionHelper::flashMessage(
+            __("messages.create.success"),
+            MessageState::STATE_SUCCESS,
+        );
+
+        return $this->responseFactory->redirectToRoute("kata.index");
+    }
+
+
+
+
 
     public function edit(Kata $kata): Response
     {
@@ -36,7 +64,7 @@ class KataController extends Controller
         $data = $request->validate([
             "isi" => ["string", "not_regex:/[^\w]/", Rule::unique(Kata::class)->ignoreModel($kata)]
         ], [
-            "isi.not_regex" => "Format isi hanya boleh mengandung huruf"
+            "isi.not_regex" => __("application.word_content_not_regex")
         ]);
 
         $kata->update($data);
