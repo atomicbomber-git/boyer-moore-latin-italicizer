@@ -1,6 +1,7 @@
 <?php
 
 return [
+    "word" => "Kata",
     "menu" => "Menu",
     "edit" => "Ubah",
     "update" => "Perbarui",
@@ -19,7 +20,7 @@ return [
     "login" => "Halaman Masuk",
     "logout" => "Halaman Keluar",
     "show" => "Detail",
-    "isi" => "Konten",
+    "content" => "Isi",
     "create" => "Tambah",
     "name" => "Nama",
     "real_name" => "Nama Asli",

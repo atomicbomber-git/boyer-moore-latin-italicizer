@@ -15,7 +15,7 @@ class RouteServiceProvider extends ServiceProvider
     public static function home(): string
     {
         return match (Auth::user()->level ?? null) {
-              User::LEVEL_ADMIN => route("home")
+              User::LEVEL_ADMIN => route("kata.index")
         };
     }
 

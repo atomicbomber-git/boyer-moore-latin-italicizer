@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KataController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', fn() => redirect()->route("login"));
 
 Auth::routes([
     "register" => false,
@@ -24,5 +23,8 @@ Auth::routes([
     "confirm" => false,
     "verify" => false,
 ]);
+
+Route::resource("kata", KataController::class)
+    ->parameter("kata", "kata");
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

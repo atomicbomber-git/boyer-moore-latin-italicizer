@@ -9,29 +9,42 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @livewireStyles
 </head>
 <body>
     <div id="app">
         <x-layouts.navbar/>
 
-        <main class="py-4">
-            <aside>
+        <main class="py-4 container">
+            <div class="row">
+                <nav class="nav col-md-2 flex-column">
+                    <div class="h4 fw-bolder">
+                        @lang("application.menu")
+                    </div>
+                    <a class="text-dark nav-link active fw-bold" aria-current="page" href="{{ route("kata.index") }}">
+                        @lang("application.word")
+                    </a>
+                </nav>
 
-            </aside>
-
-            <article>
-                {{ $slot }}
-            </article>
+                <article class="col-md-10">
+                    {{ $slot }}
+                </article>
+            </div>
         </main>
     </div>
 </body>
+
+<script src="{{ asset('js/app.js') }}"></script>
+
+
+@livewireScripts
+
+<!-- Scripts -->
 </html>
