@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\DokumenDownloadController;
 use App\Http\Controllers\KataController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,4 +28,4 @@ Auth::routes([
 
 Route::resource("kata", KataController::class)->parameter("kata", "kata");
 Route::resource("dokumen", DokumenController::class);
-
+Route::get("dokumen/{dokumen}/download", DokumenDownloadController::class)->name("dokumen.download");

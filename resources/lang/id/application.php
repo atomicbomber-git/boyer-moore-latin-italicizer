@@ -11,7 +11,7 @@ return [
     "update" => "Perbarui",
     "created_at" => "Waktu Pembuatan",
     "updated_at" => "Waktu Terakhir Revisi",
-    "download" => "Unduh",
+    "download" => "Download",
     "number_symbol" => "#",
     "file_word" => "File Word",
     "mahasiswa" => "Mahasiswa",

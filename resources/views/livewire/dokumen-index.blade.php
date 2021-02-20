@@ -33,6 +33,10 @@
                                     @lang("application.edit")
                                 </a>
 
+                                <a href="{{ route("dokumen.download", $dokumen) }}" class="btn btn-primary btn-sm">
+                                    @lang("application.download")
+                                </a>
+
                                 <button
                                         x-data="{}"
                                         x-on:click="confirmDialog().then(res => res.isConfirmed && Livewire.emit('destroy', '{{ $dokumen->id }}'))"
