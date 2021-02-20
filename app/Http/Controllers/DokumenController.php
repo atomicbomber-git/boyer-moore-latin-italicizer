@@ -72,4 +72,48 @@ class DokumenController extends Controller
 
         return $this->responseFactory->redirectToRoute("dokumen.index");
     }
+
+    public function edit(Dokumen $dokumen)
+    {
+        return $this->responseFactory->view("dokumen.edit", [
+            "dokumen" => $dokumen,
+        ]);
+    }
+
+    public function update(Request $request, Dokumen $dokumen)
+    {
+        $data = $request->validate([
+            "nama" => ["required", "string", Rule::unique(Dokumen::class)->ignoreModel($dokumen)],
+            "document" => ["required", "file", "mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
+        ], [
+            "document.mimetypes" => "Berkas harus dalam format .docx",
+        ]);
+
+        DB::beginTransaction();
+
+        $dokumen
+            ->addMediaFromString(
+                FileConverter::wordToHTML($request->file("document")->getRealPath())
+            )
+            ->usingFileName(Str::snake($dokumen->nama) . ".html")
+            ->toMediaCollection(Dokumen::COLLECTION_HTML);
+
+        $dokumen
+            ->addMediaFromRequest("document")
+            ->toMediaCollection(Dokumen::COLLECTION_WORD);
+
+
+        $dokumen->update([
+            "nama" => $dokumen["nama"],
+        ]);
+
+        DB::commit();
+
+        SessionHelper::flashMessage(
+            __("messages.update.success"),
+            MessageState::STATE_SUCCESS,
+        );
+
+        return $this->responseFactory->redirectToRoute("dokumen.edit", $dokumen);
+    }
 }

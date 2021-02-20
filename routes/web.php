@@ -27,5 +27,5 @@ Auth::routes([
 ]);
 
 Route::resource("kata", KataController::class)->parameter("kata", "kata");
-Route::resource("dokumen", DokumenController::class);
+Route::resource("dokumen", DokumenController::class)->parameter("dokumen", "dokumen");
 Route::get("dokumen/{dokumen}/download", DokumenDownloadController::class)->name("dokumen.download");
