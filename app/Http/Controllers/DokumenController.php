@@ -4,7 +4,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Dokumen;
+use App\Support\FileConverter;
+use App\Support\MessageState;
+use App\Support\SessionHelper;
+use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class DokumenController extends Controller
 {
@@ -19,5 +27,49 @@ class DokumenController extends Controller
     public function index()
     {
         return $this->responseFactory->view("dokumen.index");
+    }
+
+    public function create()
+    {
+        return $this->responseFactory->view("dokumen.create");
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            "nama" => ["required", "string", Rule::unique(Dokumen::class)],
+            "document" => ["required", "file", "mimetypes:application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
+        ], [
+            "document.mimetypes" => "Berkas harus dalam format .docx",
+        ]);
+
+        DB::beginTransaction();
+
+        /** @var Dokumen $dokumen */
+        $dokumen = Dokumen::query()->create([
+            "nama" => $data["nama"],
+        ]);
+
+        $htmlContentInString = FileConverter::wordToHTML(
+            $request->file("document")->getRealPath()
+        );
+
+        $dokumen
+            ->addMediaFromRequest("document")
+            ->toMediaCollection(Dokumen::COLLECTION_WORD);
+
+        $dokumen
+            ->addMediaFromString($htmlContentInString)
+            ->usingFileName(Str::snake($dokumen->nama) . ".html")
+            ->toMediaCollection(Dokumen::COLLECTION_HTML);
+
+        DB::commit();
+
+        SessionHelper::flashMessage(
+            __("messages.create.success"),
+            MessageState::STATE_SUCCESS,
+        );
+
+        return $this->responseFactory->redirectToRoute("dokumen.index");
     }
 }

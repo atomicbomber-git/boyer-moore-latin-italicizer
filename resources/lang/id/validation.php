@@ -146,5 +146,6 @@ return [
     'attributes' => [
         'username' => 'nama pengguna',
         'password' => 'kata sandi',
+        'document' => 'dokumen',
     ],
 ];

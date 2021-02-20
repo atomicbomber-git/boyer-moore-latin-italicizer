@@ -15,6 +15,7 @@ class Dokumen extends Model implements HasMedia
     const COLLECTION_HTML = "html";
 
     protected $table = "dokumen";
+    protected $guarded = [];
 
 
     public function registerMediaCollections(): void
