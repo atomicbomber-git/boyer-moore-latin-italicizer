@@ -5,6 +5,7 @@ return [
     "search_feature" => "Pencarian",
     "search" => "Cari",
     "word" => "Kata",
+    "document" => "Dokumen",
     "menu" => "Menu",
     "edit" => "Ubah",
     "update" => "Perbarui",

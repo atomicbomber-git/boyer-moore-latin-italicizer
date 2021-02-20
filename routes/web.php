@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\KataController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -24,7 +25,6 @@ Auth::routes([
     "verify" => false,
 ]);
 
-Route::resource("kata", KataController::class)
-    ->parameter("kata", "kata");
+Route::resource("kata", KataController::class)->parameter("kata", "kata");
+Route::resource("dokumen", DokumenController::class);
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
