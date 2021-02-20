@@ -24,6 +24,8 @@
 
         <main class="py-4 container">
             <div class="row">
+                @auth
+
                 <nav class="nav col-md-2 flex-column">
                     <div class="h4 fw-bolder">
                         @lang("application.menu")
@@ -33,7 +35,9 @@
                     </a>
                 </nav>
 
-                <article class="col-md-10">
+                @endauth
+
+                <article class="@auth col-md-10 @else col-md-12 @endauth">
                     {{ $slot }}
                 </article>
             </div>

@@ -18,6 +18,7 @@ class AdminUserSeeder extends Seeder
     {
         UserFactory::new()
             ->create([
+                "name" => "Administrator",
                 "level" => User::LEVEL_ADMIN,
                 "username" => "admin",
                 "password" => Hash::make("admin"),

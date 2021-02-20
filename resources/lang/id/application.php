@@ -1,6 +1,8 @@
 <?php
 
 return [
+    "search_feature" => "Pencarian",
+    "search" => "Cari",
     "word" => "Kata",
     "menu" => "Menu",
     "edit" => "Ubah",

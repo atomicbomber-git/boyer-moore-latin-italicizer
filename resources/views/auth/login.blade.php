@@ -37,7 +37,7 @@
                     <label for="password" class="form-label"> @lang("application.password") </label>
                     <input
                             id="password"
-                            type="text"
+                            type="password"
                             placeholder="@lang("application.password")"
                             class="form-control @error("password") is-invalid @enderror"
                             name="password"
