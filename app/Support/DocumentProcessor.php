@@ -28,19 +28,46 @@ class DocumentProcessor
 
                 $matches = [];
                 foreach ($words as $word) {
-                    $matches[$word] = StringUtil::boyerMooreSearch(
-                        $text,
+                    $tempText = $text;
+                    $matchPosition = StringUtil::boyerMooreSearch(
+                        $tempText,
                         $word
                     );
+
+                    $offset = 0;
+
+                    while ($matchPosition !== -1) {
+                        $matches[] = [
+                            "word" => $word,
+                            "index" => $offset + $matchPosition,
+                        ];
+
+                        $offset += $matchPosition + strlen($word);
+                        $tempText = substr($tempText, $matchPosition + strlen($word));
+
+                        $matchPosition = StringUtil::boyerMooreSearch(
+                            $tempText,
+                            $word
+                        );
+                    }
                 }
 
-                $matches = array_filter($matches, fn ($position) => $position !== -1);
-                uksort($matches, fn ($wordA, $wordB) => $matches[$wordA] - $matches[$wordB]);
+                $matches = array_filter($matches, function ($match) use ($text) {
+                    return StringUtil::isWordIn(
+                        $text,
+                        $match["index"],
+                        strlen($match["word"])
+                    );
+                });
 
+                usort($matches, fn ($matchA, $matchB) => $matchA["index"] - $matchB["index"]);
                 $documentFragment = $node->ownerDocument->createDocumentFragment();
                 $currentTextStartIndex = 0;
 
-                foreach ($matches as $word => $matchIndex) {
+                foreach ($matches as $match) {
+                    $word = $match["word"];
+                    $matchIndex = $match["index"];
+
                     $precedingText = substr($originalText, $currentTextStartIndex, $matchIndex - $currentTextStartIndex);
 
                     $documentFragment->appendChild(
@@ -54,7 +81,6 @@ class DocumentProcessor
 
                     $idAttribute = $node->ownerDocument->createAttribute("id");
                     $idAttribute->value = sprintf("%s-%s", $this->markerCssClass, $indexCounter++);
-                    dump($idAttribute->value);
 
                     $markedWordElement->appendChild($classAttribute);
                     $markedWordElement->appendChild($idAttribute);

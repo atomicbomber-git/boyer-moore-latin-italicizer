@@ -6,6 +6,24 @@ namespace App\Support;
 
 class StringUtil
 {
+    public static function isWordIn(string $haystack, int $begin, int $length): bool
+    {
+        $finish = $begin + $length - 1;
+
+        if (
+            ($begin < 0) ||
+            ($finish > (strlen($haystack) - 1)) ||
+            ($finish <= $begin)
+        ) {
+            return false;
+        }
+
+        $beginsAtBoundary = ($begin === 0) || preg_match("/[^\w]/", $haystack[$begin - 1]);
+        $endsAtBoundary = ($finish === (strlen($haystack) - 1)) || preg_match("/[^\w]/", $haystack[$finish + 1]);
+
+        return $beginsAtBoundary && $endsAtBoundary;
+    }
+
     public static function boyerMooreSearch(string $text, string $pattern): int {
         $patlen = strlen($pattern);
         $textlen = strlen($text);

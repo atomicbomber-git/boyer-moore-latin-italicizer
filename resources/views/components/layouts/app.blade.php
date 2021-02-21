@@ -50,10 +50,10 @@
     </div>
 </body>
 
+@livewireScripts
 <script src="{{ asset('js/app.js') }}"></script>
 
 
-@livewireScripts
 
 <!-- Scripts -->
 </html>

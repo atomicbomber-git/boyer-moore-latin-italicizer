@@ -53,10 +53,6 @@ class DokumenController extends Controller
         ]);
 
         $dokumen
-            ->addMediaFromRequest("document")
-            ->toMediaCollection(Dokumen::COLLECTION_WORD);
-
-        $dokumen
             ->addMediaFromString(
                 (new DocumentProcessor)->markWords(
                     FileConverter::wordToHTML($request->file("document")->getRealPath()),
@@ -65,6 +61,10 @@ class DokumenController extends Controller
             )
             ->usingFileName(Str::snake($dokumen->nama) . ".html")
             ->toMediaCollection(Dokumen::COLLECTION_HTML);
+
+        $dokumen
+            ->addMediaFromRequest("document")
+            ->toMediaCollection(Dokumen::COLLECTION_WORD);
 
         DB::commit();
 
