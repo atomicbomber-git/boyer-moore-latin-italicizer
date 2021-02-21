@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Dokumen;
+use App\Models\Kata;
+use App\Support\DocumentProcessor;
 use App\Support\FileConverter;
 use App\Support\MessageState;
 use App\Support\SessionHelper;
@@ -50,16 +52,17 @@ class DokumenController extends Controller
             "nama" => $data["nama"],
         ]);
 
-        $htmlContentInString = FileConverter::wordToHTML(
-            $request->file("document")->getRealPath()
-        );
-
         $dokumen
             ->addMediaFromRequest("document")
             ->toMediaCollection(Dokumen::COLLECTION_WORD);
 
         $dokumen
-            ->addMediaFromString($htmlContentInString)
+            ->addMediaFromString(
+                (new DocumentProcessor)->markWords(
+                    FileConverter::wordToHTML($request->file("document")->getRealPath()),
+                    Kata::query()->get(["isi"])->pluck("isi")->toArray(),
+                )
+            )
             ->usingFileName(Str::snake($dokumen->nama) . ".html")
             ->toMediaCollection(Dokumen::COLLECTION_HTML);
 
@@ -93,7 +96,10 @@ class DokumenController extends Controller
 
         $dokumen
             ->addMediaFromString(
-                FileConverter::wordToHTML($request->file("document")->getRealPath())
+                (new DocumentProcessor)->markWords(
+                    FileConverter::wordToHTML($request->file("document")->getRealPath()),
+                    Kata::query()->get(["isi"])->pluck("isi")->toArray(),
+                )
             )
             ->usingFileName(Str::snake($dokumen->nama) . ".html")
             ->toMediaCollection(Dokumen::COLLECTION_HTML);
@@ -104,7 +110,7 @@ class DokumenController extends Controller
 
 
         $dokumen->update([
-            "nama" => $dokumen["nama"],
+            "nama" => $data["nama"],
         ]);
 
         DB::commit();
