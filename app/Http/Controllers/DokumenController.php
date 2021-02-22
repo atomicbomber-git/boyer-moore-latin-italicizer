@@ -122,4 +122,11 @@ class DokumenController extends Controller
 
         return $this->responseFactory->redirectToRoute("dokumen.edit", $dokumen);
     }
+
+    public function show(Dokumen $dokumen)
+    {
+        return $this->responseFactory->view("dokumen.show", [
+            "dokumen" => $dokumen,
+        ]);
+    }
 }

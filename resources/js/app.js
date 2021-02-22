@@ -1,5 +1,13 @@
 require('./bootstrap');
 require('alpinejs')
+import { createApp } from "vue"
+import DokumenShow from "./components/DokumenShow";
+
+const app = createApp({
+    components: {
+        'document-show': DokumenShow,
+    },
+}).mount('#app')
 
 const Swal = require('sweetalert2')
 window.Swal = Swal

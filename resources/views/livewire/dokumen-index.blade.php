@@ -33,6 +33,10 @@
                                     @lang("application.edit")
                                 </a>
 
+                                <a href="{{ route("dokumen.show", $dokumen) }}" class="btn btn-primary btn-sm">
+                                    @lang("application.show")
+                                </a>
+
                                 <a href="{{ route("dokumen.download", $dokumen) }}" class="btn btn-primary btn-sm">
                                     @lang("application.download")
                                 </a>

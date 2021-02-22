@@ -19,7 +19,7 @@
     @livewireStyles
 </head>
 <body>
-    <div id="app">
+    <div>
         <x-layouts.navbar/>
 
         <main class="py-4 container">

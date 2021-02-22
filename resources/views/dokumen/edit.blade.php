@@ -67,7 +67,7 @@
             <button class="btn btn-primary"
                     form="form"
             >
-                @lang("application.update`")
+                @lang("application.update")
             </button>
         </div>
     </div>
