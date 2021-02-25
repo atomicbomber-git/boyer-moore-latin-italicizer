@@ -12,6 +12,9 @@
     <x-messages></x-messages>
 
     <div id="app">
-        <document-show></document-show>
+        <document-show
+                data-source-url='{{ route('dokumen.data', $dokumen) }}'
+                revise-action-url='{{ route('dokumen.revisi', $dokumen) }}'
+        ></document-show>
     </div>
 </x-layouts.app>
