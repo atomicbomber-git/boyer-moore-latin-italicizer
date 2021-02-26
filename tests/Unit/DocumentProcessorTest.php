@@ -4,6 +4,7 @@ use App\Support\DocumentProcessor;
 
 test("Can mark words as editable", function () {
     $words = [
+        "di",
         "delenda",
         "omni",
         "est",
@@ -16,11 +17,8 @@ test("Can mark words as editable", function () {
 
     $htmlString = /** @lang HTML */
         <<<HERE
-<p>
-Bahwa sesungguhnya <em> nunquam </em> Kemerdekaan itu ialah hak segala bangsa dan oleh sebab itu, maka penjajahan di atas <strong>delenda</strong> dunia harus dihapuskan, karena tidak sesuai dengan perikemanusiaan dan perikeadilan.
-</p>
+<p>maka penjajahan di atas xxx xxx xxx <strong><em>delenda</em></strong> dunia harus dihapuskan</p>
 HERE;
-
 
     $documentProcessor = new DocumentProcessor();
     dump(

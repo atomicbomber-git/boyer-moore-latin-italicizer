@@ -103,7 +103,7 @@ export default {
     const markDocumentParts = contentDocument => {
       let head = contentDocument.querySelector("head")
       let styleElement = contentDocument.createElement('style')
-      styleElement.innerHTML = "span.marked { text-decoration: underline; text-decoration-color: red; text-decoration-style: wavy }"
+      styleElement.innerHTML = "span.marked, span.marked-done { text-decoration: underline; text-decoration-color: red; text-decoration-style: wavy }"
       head.appendChild(styleElement)
     }
 
@@ -111,7 +111,7 @@ export default {
       markDocumentParts(e.target.contentDocument)
 
       let contentDocument = e.target.contentDocument
-      contentDocument.querySelectorAll("span.marked").forEach(elem => {
+      contentDocument.querySelectorAll("span.marked-done, span.marked").forEach(elem => {
         corrections.value.push({
           node: elem,
           applies: true,

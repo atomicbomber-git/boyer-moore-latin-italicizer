@@ -27,7 +27,7 @@ class DocumentProcessor
                     $this->markerLatinItalicized :
                     $this->markerLatinUnitalicized;
 
-                $originalText = trim($node->wholeText);
+                $originalText = $node->wholeText;
                 $text = strtolower($originalText);
                 if (strlen($originalText) === 0) return;
 
@@ -100,6 +100,10 @@ class DocumentProcessor
                     $documentFragment->appendChild($markedWordElement);
                     $currentTextStartIndex = $matchIndex + strlen($word);
                 }
+
+                $documentFragment->appendChild(
+                    $node->ownerDocument->createTextNode(substr($originalText, $currentTextStartIndex))
+                );
 
                 if ($matches !== []) {
                     $pendingNodeReplacements[] = [
