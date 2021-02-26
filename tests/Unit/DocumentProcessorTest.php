@@ -1,8 +1,6 @@
 <?php
 
 use App\Support\DocumentProcessor;
-use App\Support\DomTreeWalker;
-use App\Support\StringUtil;
 
 test("Can mark words as editable", function () {
     $words = [
@@ -16,11 +14,13 @@ test("Can mark words as editable", function () {
         "nunquam",
     ];
 
-    $htmlString = /** @lang HTML */ <<<HERE
-<div>
-    <p> Pronunquam nunquam </p>
-</div>
+    $htmlString = /** @lang HTML */
+        <<<HERE
+<p>
+Bahwa sesungguhnya <em> nunquam </em> Kemerdekaan itu ialah hak segala bangsa dan oleh sebab itu, maka penjajahan di atas <strong>delenda</strong> dunia harus dihapuskan, karena tidak sesuai dengan perikemanusiaan dan perikeadilan.
+</p>
 HERE;
+
 
     $documentProcessor = new DocumentProcessor();
     dump(

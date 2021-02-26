@@ -45,6 +45,8 @@ class DokumenController extends Controller
             "document.mimetypes" => "Berkas harus dalam format .docx",
         ]);
 
+        return response(FileConverter::wordToHTML($request->file("document")->getRealPath()));
+
         DB::beginTransaction();
 
         /** @var Dokumen $dokumen */

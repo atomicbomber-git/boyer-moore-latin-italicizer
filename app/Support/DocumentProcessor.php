@@ -9,7 +9,8 @@ use DOMNode;
 class DocumentProcessor
 {
     public function __construct(
-        public string $markerCssClass = "marked"
+        public string $markerLatinUnitalicized = "marked",
+        public string $markerLatinItalicized = "marked-done"
     ){}
 
     public function markWords(string $htmlString, array $words): string
@@ -22,6 +23,10 @@ class DocumentProcessor
 
         DomTreeWalker::traverse($htmlDocument, function (DOMNode $node) use ($words, &$pendingNodeReplacements, &$indexCounter) {
             if ($node->nodeType === XML_TEXT_NODE) {
+                $markerClass = $node->parentNode->nodeName === "em" ?
+                    $this->markerLatinItalicized :
+                    $this->markerLatinUnitalicized;
+
                 $originalText = trim($node->wholeText);
                 $text = strtolower($originalText);
                 if (strlen($originalText) === 0) return;
@@ -77,10 +82,10 @@ class DocumentProcessor
                     $markedWordElement = $node->ownerDocument->createElement('span');
 
                     $classAttribute = $node->ownerDocument->createAttribute("class");
-                    $classAttribute->value = $this->markerCssClass;
+                    $classAttribute->value = $markerClass;
 
                     $idAttribute = $node->ownerDocument->createAttribute("id");
-                    $idAttribute->value = sprintf("%s-%s", $this->markerCssClass, $indexCounter++);
+                    $idAttribute->value = sprintf("%s-%s", $markerClass, $indexCounter++);
 
                     $markedWordElement->appendChild($classAttribute);
                     $markedWordElement->appendChild($idAttribute);
@@ -96,10 +101,12 @@ class DocumentProcessor
                     $currentTextStartIndex = $matchIndex + strlen($word);
                 }
 
-                $pendingNodeReplacements[] = [
-                    "old" => $node,
-                    "new" => $documentFragment,
-                ];
+                if ($matches !== []) {
+                    $pendingNodeReplacements[] = [
+                        "old" => $node,
+                        "new" => $documentFragment,
+                    ];
+                }
             }
         });
 
