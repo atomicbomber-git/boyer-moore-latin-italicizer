@@ -1,16 +1,23 @@
 <template>
-  <div class="card mb-3">
+  <div
+      class="card mb-3"
+  >
     <div class="card-header">
       Daftar Revisi
     </div>
 
-    <div class="card-body">
-      <table class="table table-sm table-striped">
+    <div
+        class="card-body"
+        style="max-height: 300px; overflow-y: scroll"
+    >
+      <table
+          class="table table-sm table-striped"
+      >
         <thead>
         <tr>
-          <th> # </th>
-          <th> Teks </th>
-          <th class="text-center"> Miringkan? </th>
+          <th> #</th>
+          <th> Teks</th>
+          <th class="text-center"> Miringkan?</th>
         </tr>
         </thead>
 
@@ -21,14 +28,23 @@
             :key="key"
         >
           <td> {{ key + 1 }}</td>
-          <td> {{ correction.node.textContent }}</td>
-          <td class="d-flex justify-content-center">
-            <div class="form-check">
+          <td>
+            <button class="btn btn-info btn-sm"
+                    type="button"
+                    @click="onCorrectionClick(correction)"
+            >
+              {{ correction.node.textContent }}
+            </button>
+          </td>
+          <td class="text-center">
+
+
+            <div class="form-check d-inline-block">
               <input
                   id="flexCheckChecked"
+                  v-model="correction.applies"
                   class="form-check-input"
                   type="checkbox"
-                  v-model="correction.applies"
               >
               <label class="form-check-label sr-only"
                      for="flexCheckChecked"
@@ -36,7 +52,6 @@
                 Lakukan Koreksi Untuk {{ correction.node.textContent }}, item ke {{ key + 1 }}
               </label>
             </div>
-
           </td>
         </tr>
         </tbody>
@@ -44,7 +59,9 @@
     </div>
 
     <div class="card-footer d-flex justify-content-end">
-      <button @click="onSubmit" class="btn btn-primary">
+      <button class="btn btn-primary"
+              @click="onSubmit"
+      >
         Lakukan Revisi
       </button>
     </div>
@@ -73,7 +90,7 @@
 <script>
 
 import axios from "axios"
-import {onMounted, ref, computed} from "vue"
+import {computed, onMounted, ref} from "vue"
 
 export default {
   name: "DokumenShow",
@@ -87,13 +104,37 @@ export default {
     const document = ref(null)
     const documentFrame = ref(null)
     const corrections = ref([])
-    const formData = computed(() => corrections.value.map(correction => ({
-      id: correction.node.id,
-    })))
+    const formData = computed(() => ({
+      corrections: corrections.value.map(correction => ({
+        id: correction.node.id,
+        applies: correction.applies,
+      }))
+    }))
 
-    const onSubmit = () => {
-      // TODO Implement this thing
+    const onSubmit = async () => {
+      try {
+        let response = await axios.post(props.reviseActionUrl, formData.value)
+        window.location.reload()
+      } catch (e) {
+        alert("Gagal memroses dokumen.")
+      }
     };
+
+    const unhighlightEverything = () => {
+      const contentDocument = documentFrame.value.contentDocument
+
+      const nodes = contentDocument.querySelectorAll("span.highlighted")
+      nodes.forEach(node => {
+          node.classList.remove("highlighted")
+      })
+    }
+
+    const onCorrectionClick = correction => {
+      unhighlightEverything()
+
+      correction.node.classList.add('highlighted')
+      correction.node.scrollIntoView(true)
+    }
 
     onMounted(async () => {
       let response = await axios.get(props.dataSourceUrl)
@@ -103,7 +144,7 @@ export default {
     const markDocumentParts = contentDocument => {
       let head = contentDocument.querySelector("head")
       let styleElement = contentDocument.createElement('style')
-      styleElement.innerHTML = "span.marked, span.marked-done { text-decoration: underline; text-decoration-color: red; text-decoration-style: wavy }"
+      styleElement.innerHTML = "span.marked, span.marked-done { text-decoration: underline; text-decoration-color: red; text-decoration-style: wavy } span.highlighted { background-color: yellow }"
       head.appendChild(styleElement)
     }
 
@@ -125,6 +166,7 @@ export default {
       onDocumentLoad,
       corrections,
       formData,
+      onCorrectionClick,
       onSubmit,
     }
   }

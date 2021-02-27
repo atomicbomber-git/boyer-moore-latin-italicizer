@@ -85,7 +85,7 @@ class DocumentProcessor
                     $classAttribute->value = $markerClass;
 
                     $idAttribute = $node->ownerDocument->createAttribute("id");
-                    $idAttribute->value = sprintf("%s-%s", $markerClass, $indexCounter++);
+                    $idAttribute->value = sprintf("%s-%s", "index", $indexCounter++);
 
                     $markedWordElement->appendChild($classAttribute);
                     $markedWordElement->appendChild($idAttribute);

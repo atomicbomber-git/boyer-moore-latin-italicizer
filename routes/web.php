@@ -32,6 +32,6 @@ Auth::routes([
 Route::resource("kata", KataController::class)->parameter("kata", "kata");
 Route::resource("dokumen", DokumenController::class)->parameter("dokumen", "dokumen");
 Route::get("dokumen/{dokumen}/download", DokumenDownloadController::class)->name("dokumen.download");
-Route::get("dokumen/{dokumen}/revisi", DokumenRevisiController::class)->name("dokumen.revisi");
+Route::post("dokumen/{dokumen}/revisi", DokumenRevisiController::class)->name("dokumen.revisi");
 Route::get("dokumen/{dokumen}/html", DokumenHtmlController::class)->name("dokumen.html");
 Route::get("dokumen/{dokumen}/data", DokumenDataController::class)->name("dokumen.data");

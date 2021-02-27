@@ -18,10 +18,7 @@ class DokumenHtmlController
 
     public function __invoke(Dokumen $dokumen)
     {
-        return $this->responseFactory->make(
-            file_get_contents(
-                $dokumen->getFirstMediaPath(Dokumen::COLLECTION_HTML)
-            )
-        );
+        return $dokumen->getFirstMedia(Dokumen::COLLECTION_WORD)
+            ->file_name;
     }
 }

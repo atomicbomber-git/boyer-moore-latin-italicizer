@@ -17,14 +17,38 @@ test("Can mark words as editable", function () {
 
     $htmlString = /** @lang HTML */
         <<<HERE
-<p>maka penjajahan di atas xxx xxx xxx <strong><em>delenda</em></strong> dunia harus dihapuskan</p>
+<em></em>
 HERE;
 
-    $documentProcessor = new DocumentProcessor();
-    dump(
-        $documentProcessor->markWords(
-            $htmlString,
-            $words,
-        )
-    );
+        $domDocument = new DOMDocument();
+        $domDocument->loadHTML($htmlString);
+
+        $selectedChild = ($domDocument->getElementsByTagName("body")->item(0))->childNodes->item(0);
+
+        dump($selectedChild->textContent === "");
+
+
+//        dump($domDocument->saveHTML($selectedChild));
+
+//        $bodyLastChildren->parentNode->append(null);
+//
+//
+//                $bodyLastChildren->append(
+//            $domDocument->createElement("span")
+//        );
+
+
+//
+//
+//
+//
+//        dump($domDocument->saveHTML($bodyLastChildren));
+
+//    $documentProcessor = new DocumentProcessor();
+//    dump(
+//        $documentProcessor->markWords(
+//            $htmlString,
+//            $words,
+//        )
+//    );
 });
