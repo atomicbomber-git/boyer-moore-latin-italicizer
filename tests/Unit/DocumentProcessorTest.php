@@ -26,29 +26,4 @@ HERE;
         $selectedChild = ($domDocument->getElementsByTagName("body")->item(0))->childNodes->item(0);
 
         dump($selectedChild->textContent === "");
-
-
-//        dump($domDocument->saveHTML($selectedChild));
-
-//        $bodyLastChildren->parentNode->append(null);
-//
-//
-//                $bodyLastChildren->append(
-//            $domDocument->createElement("span")
-//        );
-
-
-//
-//
-//
-//
-//        dump($domDocument->saveHTML($bodyLastChildren));
-
-//    $documentProcessor = new DocumentProcessor();
-//    dump(
-//        $documentProcessor->markWords(
-//            $htmlString,
-//            $words,
-//        )
-//    );
 });

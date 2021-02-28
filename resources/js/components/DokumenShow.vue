@@ -26,6 +26,7 @@
         <tr
             v-for="(correction, key) in corrections"
             :key="key"
+            @mouseenter="onCorrectionRowMouseEnter(correction)"
         >
           <td> {{ key + 1 }}</td>
           <td>
@@ -37,8 +38,6 @@
             </button>
           </td>
           <td class="text-center">
-
-
             <div class="form-check d-inline-block">
               <input
                   id="flexCheckChecked"
@@ -144,7 +143,7 @@ export default {
     const markDocumentParts = contentDocument => {
       let head = contentDocument.querySelector("head")
       let styleElement = contentDocument.createElement('style')
-      styleElement.innerHTML = "span.marked, span.marked-done { text-decoration: underline; text-decoration-color: red; text-decoration-style: wavy } span.highlighted { background-color: yellow }"
+      styleElement.innerHTML = "span.marked, span.marked-done { text-decoration: underline; text-decoration-style: wavy } span.marked { text-decoration-color: darkred } span.marked-done { text-decoration-color: darkgreen } span.highlighted { background-color: yellow }"
       head.appendChild(styleElement)
     }
 
@@ -160,6 +159,11 @@ export default {
       })
     }
 
+    const onCorrectionRowMouseEnter = correction => {
+      unhighlightEverything()
+      correction.node.classList.add('highlighted')
+    }
+
     return {
       document,
       documentFrame,
@@ -168,6 +172,7 @@ export default {
       formData,
       onCorrectionClick,
       onSubmit,
+      onCorrectionRowMouseEnter,
     }
   }
 }
