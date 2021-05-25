@@ -13,6 +13,7 @@
 
     <div id="app">
         <document-show
+                document-download-url='{{ route('dokumen.download', $dokumen) }}'
                 data-source-url='{{ route('dokumen.data', $dokumen) }}'
                 revise-action-url='{{ route('dokumen.revisi', $dokumen) }}'
         ></document-show>
