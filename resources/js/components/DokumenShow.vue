@@ -58,12 +58,21 @@
         </div>
         
         <div class="card-footer d-flex justify-content-end">
-            <button class="btn btn-primary me-2"
-                    @click="onSubmit"
+            <button
+                class="btn me-2"
+                :class="{ 'btn-primary': !isUpdatingDocument, 'btn-warning': isUpdatingDocument }"
+                :disabled="isUpdatingDocument"
+                @click="onSubmit"
             >
-                Lakukan Revisi
+                <template v-if="!isUpdatingDocument">
+                    Lakukan Revisi
+                </template>
+                
+                <template v-if="isUpdatingDocument">
+                    Melakukan Revisi, Harap Tunggu...
+                </template>
+                
                 </button>
-            
             <a
                 class="btn btn-primary"
                 :href="documentDownloadUrl"
@@ -108,6 +117,7 @@ export default {
     },
     
     setup(props) {
+        const isUpdatingDocument = ref(false)
         const document = ref(null)
         const documentFrame = ref(null)
         const corrections = ref([])
@@ -119,11 +129,15 @@ export default {
         }))
         
         const onSubmit = async () => {
+            isUpdatingDocument.value = true
+            
             try {
                 let response = await axios.post(props.reviseActionUrl, formData.value)
                 window.location.reload()
             } catch (e) {
                 alert("Gagal memroses dokumen.")
+            } finally {
+                isUpdatingDocument.value = false
             }
         };
         
@@ -174,6 +188,7 @@ export default {
         
         return {
             ...props,
+            isUpdatingDocument,
             document,
             documentFrame,
             onDocumentLoad,
