@@ -3,8 +3,11 @@
 namespace App\Http\Livewire;
 
 use App\Models\Dokumen;
+use App\Providers\AuthServiceProvider;
 use App\Support\MessageState;
 use App\Support\SessionHelper;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class DokumenIndex extends Component
@@ -36,6 +39,7 @@ class DokumenIndex extends Component
     {
         return view('livewire.dokumen-index', [
             "dokumens" => Dokumen::query()
+                ->where("user_username", Auth::user()->username)
                 ->paginate()
         ]);
     }

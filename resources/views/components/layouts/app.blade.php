@@ -25,21 +25,7 @@
         <main class="py-4 container">
             <div class="row">
                 @auth
-
-                <nav class="nav col-md-2 flex-column">
-                    <div class="h4 fw-bolder">
-                        @lang("application.menu")
-                    </div>
-
-                    <a class="text-dark nav-link {{ \Illuminate\Support\Facades\Route::is("kata.*") ? "active fw-bold" : "" }}" aria-current="page" href="{{ route("kata.index") }}">
-                        @lang("application.word")
-                    </a>
-
-                    <a class="text-dark nav-link {{ \Illuminate\Support\Facades\Route::is("dokumen.*") ? "active fw-bold" : "" }}" aria-current="page" href="{{ route("dokumen.index") }}">
-                        @lang("application.document")
-                    </a>
-                </nav>
-
+                    <x-sidebar/>
                 @endauth
 
                 <article class="@auth col-md-10 @else col-md-12 @endauth">

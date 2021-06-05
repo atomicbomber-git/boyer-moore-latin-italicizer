@@ -12,5 +12,8 @@ div.form-group {
 // Bootstrap
 @import '~bootstrap/dist/css/bootstrap.css';
 
+// Bootstrap Icons, add to app.scss in Laravel (install: npm i bootstrap-icons --save-dev)
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+
 // Font Awesome 5
 @import '~@fortawesome/fontawesome-free/css/all.css';

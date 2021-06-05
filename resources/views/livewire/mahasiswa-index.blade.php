@@ -1,6 +1,6 @@
 <div>
     <x-feature-title>
-        @lang("application.word")
+        @lang("application.mahasiswa")
     </x-feature-title>
 
     <x-messages/>
@@ -8,36 +8,36 @@
     <div class="card">
         <div class="card-body">
             <div class="my-3 d-flex justify-content-end">
-                <x-filter-input/>
-                
-                <a href="{{ route("kata.create") }}" class="btn btn-primary">
+                <a href="{{ route("mahasiswa.create") }}" class="btn btn-primary">
                     @lang("application.create")
                 </a>
             </div>
-            
-            @if($katas->isNotEmpty())
+
+            @if($mahasiswas->isNotEmpty())
                 <x-table>
                     <x-thead>
                         <tr>
                             <th> @lang("application.number_symbol") </th>
-                            <th> @lang("application.content") </th>
+                            <th> @lang("application.name") </th>
+                            <th> @lang("application.username") </th>
                             <x-th-control> @lang("application.controls") </x-th-control>
                         </tr>
                     </x-thead>
 
                     <tbody>
-                    @foreach ($katas as $kata)
+                    @foreach ($mahasiswas as $mahasiswa)
                         <tr>
-                            <td> {{ $katas->firstItem() + $loop->index }} </td>
-                            <td> {{ $kata->isi }} </td>
+                            <td> {{ $mahasiswas->firstItem() + $loop->index }} </td>
+                            <td> {{ $mahasiswa->name }} </td>
+                            <td> {{ $mahasiswa->username }} </td>
                             <x-td-control>
-                                <a href="{{ route("kata.edit", $kata) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route("mahasiswa.edit", $mahasiswa) }}" class="btn btn-primary btn-sm">
                                     @lang("application.edit")
                                 </a>
 
                                 <button
                                         x-data="{}"
-                                        x-on:click="confirmDialog().then(res => res.isConfirmed && Livewire.emit('destroy', '{{ $kata->isi }}'))"
+                                        x-on:click="confirmDialog().then(res => res.isConfirmed && Livewire.emit('destroy', '{{ $mahasiswa->isi }}'))"
                                         type="button"
                                         class="btn btn-danger btn-sm">
                                     @lang("application.destroy")
@@ -49,7 +49,7 @@
                 </x-table>
 
                 <div class="d-flex justify-content-center">
-                    {{ $katas->links() }}
+                    {{ $mahasiswas->links() }}
                 </div>
 
             @else

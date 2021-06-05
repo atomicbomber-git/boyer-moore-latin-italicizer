@@ -12,13 +12,6 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    public static function home(): string
-    {
-        return match (Auth::user()->level ?? null) {
-              User::LEVEL_ADMIN => route("kata.index")
-        };
-    }
-
     /**
      * The path to the "home" route for your application.
      *
@@ -27,6 +20,14 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+
+    public static function home(): string
+    {
+        return match (Auth::user()->level ?? null) {
+            User::LEVEL_ADMIN => route("kata.index"),
+            User::LEVEL_MAHASISWA => route("dokumen.index")
+        };
+    }
 
     /**
      * The controller namespace for the application.

@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    protected $keyType = "string";
     protected $primaryKey = "username";
 
     use HasFactory, Notifiable;
 
     const LEVEL_ADMIN = "ADMIN";
+    const LEVEL_MAHASISWA = "MAHASISWA";
 
     protected $guarded = [];
 

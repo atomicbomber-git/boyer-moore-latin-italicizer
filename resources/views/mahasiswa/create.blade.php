@@ -1,25 +1,46 @@
 <x-layouts.app>
-    <div class="card {{ $errors->isNotEmpty() ? "border-danger" : "" }}"
-         style="max-width: 480px; margin: auto"
-    >
-        <h1 class="h3 card-header">
+    <x-feature-title>
+        <a href="{{ route("mahasiswa.index") }}">
+            @lang("application.mahasiswa")
+        </a>
 
-            @lang("application.log_in")
-        </h1>
+        /
 
+        @lang("application.create")
+    </x-feature-title>
+
+    <x-messages></x-messages>
+
+    <div class="card {{ $errors->isNotEmpty() ? 'border-danger' : '' }}">
         <div class="card-body">
             <form
-                    id="login-form"
-                    action="{{ route("login") }}"
+                    id="form"
+                    action="{{ route("mahasiswa.store") }}"
                     method="POST"
             >
                 @csrf
                 @method("POST")
 
                 <div class="mb-3">
-                    <label for="username" class="form-label"> @lang("application.username") </label>
+                    <label for="name"> @lang("application.name") </label>
                     <input
-                            autofocus
+                            id="name"
+                            type="text"
+                            placeholder="@lang("application.name")"
+                            class="form-control @error("name") is-invalid @enderror"
+                            name="name"
+                            value="{{ old("name") }}"
+                    />
+                    @error("name")
+                    <span class="invalid-feedback">
+                        {{ $message }}
+                    </span>
+                    @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="username"> @lang("application.username") </label>
+                    <input
                             id="username"
                             type="text"
                             placeholder="@lang("application.username")"
@@ -35,7 +56,7 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label"> @lang("application.password") </label>
+                    <label for="password"> @lang("application.password") </label>
                     <input
                             id="password"
                             type="password"
@@ -51,10 +72,11 @@
                     @enderror
                 </div>
             </form>
+
         </div>
         <div class="card-footer d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary" form="login-form">
-                @lang("application.log_in")
+            <button class="btn btn-primary" form="form">
+                @lang("application.create")
             </button>
         </div>
     </div>

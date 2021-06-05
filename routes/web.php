@@ -6,6 +6,7 @@ use App\Http\Controllers\DokumenDownloadController;
 use App\Http\Controllers\DokumenHtmlController;
 use App\Http\Controllers\DokumenRevisiController;
 use App\Http\Controllers\KataController;
+use App\Http\Controllers\MahasiswaController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Auth::routes([
     "verify" => false,
 ]);
 
+Route::resource("mahasiswa", MahasiswaController::class);
 Route::resource("kata", KataController::class)->parameter("kata", "kata");
 Route::resource("dokumen", DokumenController::class)->parameter("dokumen", "dokumen");
 Route::get("dokumen/{dokumen}/download", DokumenDownloadController::class)->name("dokumen.download");

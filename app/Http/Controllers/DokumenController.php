@@ -10,8 +10,10 @@ use App\Support\DocumentProcessor;
 use App\Support\FileConverter;
 use App\Support\MessageState;
 use App\Support\SessionHelper;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ResponseFactory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -50,6 +52,7 @@ class DokumenController extends Controller
         /** @var Dokumen $dokumen */
         $dokumen = Dokumen::query()->create([
             "nama" => $data["nama"],
+            "user_username" => Auth::user()->username,
         ]);
 
         $dokumen
