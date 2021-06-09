@@ -53,7 +53,11 @@ class ScientificNamesSeeder extends Seeder
         foreach ($scientificNames as $scientificName) {
             $scientificName = trim($scientificName, "\t\n\r\0\x0B.");
             foreach (explode(' ', $scientificName) as $namePart) {
-                $namesParts[] = $namePart;
+                $nonNumericCount = preg_match_all("/[^\p{L}]/ui", $namePart);
+
+                if ($nonNumericCount === 0) {
+                    $namesParts[] = $namePart;
+                }
             }
         }
 
