@@ -33,7 +33,7 @@ class KataController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            "isi" => ["string", "not_regex:/[^\w]/", Rule::unique(Kata::class)]
+            "isi" => ["string", "not_regex:/[^\w ]/", Rule::unique(Kata::class)]
         ], [
             "isi.not_regex" => __("application.word_content_not_regex")
         ]);
@@ -47,11 +47,7 @@ class KataController extends Controller
 
         return $this->responseFactory->redirectToRoute("kata.index");
     }
-
-
-
-
-
+    
     public function edit(Kata $kata): Response
     {
         return $this->responseFactory->view("kata.edit", [
@@ -62,7 +58,7 @@ class KataController extends Controller
     public function update(Request $request, Kata $kata)
     {
         $data = $request->validate([
-            "isi" => ["string", "not_regex:/[^\w]/", Rule::unique(Kata::class)->ignoreModel($kata)]
+            "isi" => ["string", "not_regex:/[^\w ]/", Rule::unique(Kata::class)->ignoreModel($kata)]
         ], [
             "isi.not_regex" => __("application.word_content_not_regex")
         ]);
