@@ -49,8 +49,16 @@ class ScientificNamesSeeder extends Seeder
             unset($scientificNames[$key]);
         }
 
-        Kata::query()->insert(
-            array_map(fn($name) => ["isi" => $name], $scientificNames)
+        $namesParts = [];
+        foreach ($scientificNames as $scientificName) {
+            $scientificName = trim($scientificName, "\t\n\r\0\x0B.");
+            foreach (explode(' ', $scientificName) as $namePart) {
+                $namesParts[] = $namePart;
+            }
+        }
+
+        Kata::query()->insertOrIgnore(
+            array_map(fn($name) => ["isi" => $name], $namesParts)
         );
     }
 }
