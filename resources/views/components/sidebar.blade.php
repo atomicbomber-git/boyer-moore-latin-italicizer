@@ -21,7 +21,6 @@
 
     @canany([
         \App\Providers\AuthServiceProvider::CAN_ACT_AS_MAHASISWA,
-        \App\Providers\AuthServiceProvider::CAN_ACT_AS_ADMIN,
     ])
         <a class="text-dark nav-link {{ \Illuminate\Support\Facades\Route::is("dokumen.*") ? "active fw-bold" : "" }}"
            aria-current="page"
