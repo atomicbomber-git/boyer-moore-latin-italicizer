@@ -37,7 +37,7 @@
 
                                 <button
                                         x-data="{}"
-                                        x-on:click="confirmDialog().then(res => res.isConfirmed && Livewire.emit('destroy', '{{ $mahasiswa->isi }}'))"
+                                        x-on:click="confirmDialog().then(res => res.isConfirmed && Livewire.emit('destroy', '{{ $mahasiswa->username }}'))"
                                         type="button"
                                         class="btn btn-danger btn-sm">
                                     @lang("application.destroy")
